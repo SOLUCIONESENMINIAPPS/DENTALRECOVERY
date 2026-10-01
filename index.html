@@ -58,26 +58,68 @@
 <body class="bg-slate-950 text-slate-100 antialiased selection:bg-cyan-500 selection:text-slate-950">
 
   <!-- Header / Navbar -->
-  <header class="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-slate-950/90 backdrop-blur-md">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
-      <a href="#" class="text-lg sm:text-xl font-extrabold tracking-tight text-white flex items-center gap-1.5 focus:outline-none">
+  <header class="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-slate-950/95 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
+      <a href="#" class="text-lg sm:text-xl font-extrabold tracking-tight text-white flex items-center gap-1.5 focus:outline-none shrink-0">
         <span class="text-cyan-400">Dental</span>
         <span>Recovery</span>
         <span class="text-xs font-semibold text-cyan-400 align-super">™</span>
       </a>
-      <div class="flex items-center gap-3">
-        <span class="text-[11px] font-semibold uppercase tracking-wider text-teal-400 bg-teal-950/60 border border-teal-800/50 px-2.5 py-1 rounded-full hidden sm:inline-block">
-          Archivo index.html Autónomo
-        </span>
-        <button onclick="downloadSelfHtml()" class="px-3.5 py-1.5 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-400 hover:to-teal-400 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-xl shadow-md transition-all flex items-center gap-1.5 cursor-pointer">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-          <span>Descargar HTML</span>
+
+      <!-- Viewport Switcher Controls: Móvil, Tablet, Desktop -->
+      <div class="flex items-center bg-slate-900 border border-slate-700/80 rounded-xl p-1 gap-1 shadow-inner">
+        <button type="button" id="btn-vp-desktop" onclick="setViewportMode('desktop')" class="px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all bg-gradient-to-r from-cyan-500 to-teal-400 text-slate-950 shadow-md cursor-pointer" title="Vista Escritorio (Desktop 100%)">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+          <span class="hidden sm:inline">Desktop</span>
+        </button>
+
+        <button type="button" id="btn-vp-tablet" onclick="setViewportMode('tablet')" class="px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer" title="Vista Tablet (768px)">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+          <span class="hidden sm:inline">Tablet</span>
+        </button>
+
+        <button type="button" id="btn-vp-mobile" onclick="setViewportMode('mobile')" class="px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer" title="Vista Móvil (390px)">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+          <span class="hidden sm:inline">Móvil</span>
+        </button>
+      </div>
+
+      <div class="flex items-center gap-3 shrink-0">
+        <button type="button" disabled title="Descarga desactivada para visitantes" class="px-3 sm:px-4 py-2 bg-slate-900 border border-slate-800 text-slate-500 font-bold text-xs uppercase tracking-wider rounded-xl cursor-not-allowed opacity-60 select-none flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+          <span class="hidden sm:inline">Exportar index.html</span>
+          <span class="sm:hidden">Exportar</span>
         </button>
       </div>
     </div>
   </header>
 
-  <main>
+  <!-- Responsive Banner Indicator -->
+  <aside id="vp-banner" class="hidden bg-cyan-950/80 border-b border-cyan-800/50 py-2 px-4 text-xs text-cyan-200 z-30 sticky top-16 sm:top-20 backdrop-blur">
+    <div class="max-w-7xl mx-auto w-full flex items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+        <span>Simulador de dispositivo: <strong id="vp-banner-text" class="text-white font-bold">Móvil (390px)</strong></span>
+      </div>
+      <button type="button" onclick="setViewportMode('desktop')" class="px-2.5 py-1 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 hover:text-white rounded-lg border border-cyan-500/40 text-xs font-semibold cursor-pointer">
+        Volver a Pantalla Completa
+      </button>
+    </div>
+  </aside>
+
+  <!-- Responsive Frame Wrapper -->
+  <div id="vp-outer-wrapper" class="w-full flex-1 flex flex-col transition-all duration-300">
+    <div id="vp-inner-container" class="w-full flex-1 flex flex-col transition-all duration-300">
+      <!-- Simulated Device Status Bar -->
+      <div id="vp-status-bar" class="hidden w-full bg-slate-900 border-b border-slate-800/90 py-2 px-5 flex items-center justify-between text-[11px] font-mono text-slate-400 select-none shrink-0">
+        <span class="font-bold text-slate-300">9:41</span>
+        <div class="w-20 h-4 bg-slate-950 rounded-full border border-slate-800/80 flex items-center justify-center">
+          <div class="w-2.5 h-2.5 rounded-full bg-slate-900 border border-slate-800"></div>
+        </div>
+        <span class="text-[10px] text-slate-400 font-semibold tracking-wider">5G 100%</span>
+      </div>
+
+      <main class="flex-1">
     <!-- Section 1: Hero Section -->
     <section class="relative overflow-hidden bg-slate-950 text-white pt-12 pb-20 sm:pt-20 sm:pb-28 border-b border-slate-800/80">
       <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-cyan-500/10 via-teal-500/5 to-transparent pointer-events-none blur-3xl -z-10"></div>
@@ -537,6 +579,8 @@
       </div>
     </div>
   </footer>
+    </div>
+  </div>
 
   <!-- Modal 1: Mini-App Modal -->
   <div id="modal-miniapp" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/85 backdrop-blur-md overflow-y-auto hidden">
@@ -793,6 +837,46 @@
 
     function scrollToCTA() {
       document.getElementById('conversion').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function setViewportMode(mode) {
+      const btnDesktop = document.getElementById('btn-vp-desktop');
+      const btnTablet = document.getElementById('btn-vp-tablet');
+      const btnMobile = document.getElementById('btn-vp-mobile');
+      const banner = document.getElementById('vp-banner');
+      const bannerText = document.getElementById('vp-banner-text');
+      const outer = document.getElementById('vp-outer-wrapper');
+      const inner = document.getElementById('vp-inner-container');
+      const statusBar = document.getElementById('vp-status-bar');
+
+      const activeClass = 'bg-gradient-to-r from-cyan-500 to-teal-400 text-slate-950 shadow-md';
+      const inactiveClass = 'text-slate-400 hover:text-white hover:bg-slate-800';
+
+      [btnDesktop, btnTablet, btnMobile].forEach(btn => {
+        btn.className = btn.className.replace(activeClass, '').replace(inactiveClass, '').trim() + ' ' + inactiveClass;
+      });
+
+      if (mode === 'mobile') {
+        btnMobile.className = btnMobile.className.replace(inactiveClass, '').trim() + ' ' + activeClass;
+        banner.classList.remove('hidden');
+        bannerText.textContent = 'Móvil (390px)';
+        outer.className = 'w-full flex-1 flex flex-col transition-all duration-300 py-6 px-2 sm:px-4 bg-slate-900/60';
+        inner.className = 'w-full flex-1 flex flex-col transition-all duration-300 max-w-[390px] mx-auto border-2 border-slate-700/80 rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.9)] overflow-hidden bg-slate-950 ring-4 ring-slate-800/50';
+        statusBar.classList.remove('hidden');
+      } else if (mode === 'tablet') {
+        btnTablet.className = btnTablet.className.replace(inactiveClass, '').trim() + ' ' + activeClass;
+        banner.classList.remove('hidden');
+        bannerText.textContent = 'Tablet (768px)';
+        outer.className = 'w-full flex-1 flex flex-col transition-all duration-300 py-6 px-2 sm:px-4 bg-slate-900/40';
+        inner.className = 'w-full flex-1 flex flex-col transition-all duration-300 max-w-[768px] mx-auto border-2 border-slate-700/80 rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.9)] overflow-hidden bg-slate-950 ring-4 ring-slate-800/50';
+        statusBar.classList.add('hidden');
+      } else {
+        btnDesktop.className = btnDesktop.className.replace(inactiveClass, '').trim() + ' ' + activeClass;
+        banner.classList.add('hidden');
+        outer.className = 'w-full flex-1 flex flex-col transition-all duration-300';
+        inner.className = 'w-full flex-1 flex flex-col transition-all duration-300';
+        statusBar.classList.add('hidden');
+      }
     }
 
     function downloadSelfHtml() {
